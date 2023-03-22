@@ -1,0 +1,17 @@
+import { View, Text, Image } from 'react-native'
+import React, { startTransition, useEffect } from 'react'
+import { useNavigation, StackActions } from '@react-navigation/native'
+
+const SplashScreen = () => {
+    const navigation = useNavigation()
+    useEffect(() => {
+        setTimeout(() => {
+             navigation.dispatch(StackActions.replace('home'))
+        }, 2000);
+    })
+    return (
+        <View style={{ flex: 1 }}><Image style={{ height: '100%', width: '100%' }} source={require('../../Assets4/splash1.png')} /></View>
+    )
+}
+
+export default SplashScreen
