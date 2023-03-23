@@ -34,8 +34,8 @@ const QuestionPage = (props) => {
     const [wrong1, setWrong1] = useState(false)
     const [wrong2, setWrong2] = useState(false)
     const [wrong3, setWrong3] = useState(false)
-    const cat = useSelector(state => state.cat)
-    const data = useSelector(state => state.Items.filter(item => item.Category === cat))
+
+    const data = useSelector(state => state.Items)
     const IsPlay = async (item, index) => {
         //  console.log('isPlay is fired')
         let isReady = await setupPlayer()
@@ -175,9 +175,11 @@ const QuestionPage = (props) => {
 
                         return (
 
-                            <View  style={[{margin: "1%",marginHorizontal:"1%",marginVertical:"7%",   height: height / 3.2,
-                            width: width / 2.15, }]}>
-                                <Image style={{height:"100%",width:'100%'}} source={{ uri: `asset:/files/${item.Image}` }} />
+                            <View style={[{
+                                margin: "1%", marginHorizontal: "1%", marginVertical: "7%", height: height / 3.2,
+                                width: width / 2.15,
+                            }]}>
+                                <Image style={{ height: "100%", width: '100%' }} source={{ uri: `asset:/files/${item.Image}` }} />
                             </View>
 
                         )
@@ -239,15 +241,15 @@ const styles = StyleSheet.create({
         height: height / 3,
         width: width / 2.12,
         margin: "1%",
-        marginLeft:"2%"
-      
+        marginLeft: "2%"
+
     },
     wrongImg2: {
         height: height / 3,
         width: width / 2.12,
 
         marginLeft: '1%',
-        marginTop:"1%"
+        marginTop: "1%"
 
 
 

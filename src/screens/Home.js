@@ -10,7 +10,7 @@ var SQLite = require('react-native-sqlite-storage')
 import { addSetting } from '../reduxToolkit/Slice2';
 import { QuestionMode } from '../reduxToolkit/Slice3';
 const db = SQLite.openDatabase({ name: "eFlashEngishinappnew.db", createFromLocation: 1 });
-console.log(db)
+
 
 const Home = () => {
   const muted = useSelector(state => state.sound)
@@ -21,7 +21,7 @@ const Home = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getData()
+    //getData()
     getSettings()
 
   }, [])

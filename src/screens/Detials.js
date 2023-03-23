@@ -37,22 +37,14 @@ const Detials = (props) => {
 
     const setting = useSelector(state => state.setting)
 
-
-    useEffect(() => {
-        setupPlayer()
-    }, [Music])
-    const cat = useSelector(state=>state.cat)
     var data;
-    if (!setting.RandomOrder) {
-        data = useSelector(state => state.Items.filter(item => item.Category === cat))
+    if (setting.RandomOrder) {
+        data = useSelector(state => state.Items.filter((item, index) => item.Category === item.Category).sort(() => Math.random() - 0.5));
     }
     else {
-        data = useSelector(state => state.Items.filter(item => item.Category === cat).sort(() => Math.random() - 0.5))
-
+        data = useSelector(state => state.Items)
     }
-    // console.log(data[0].Image)
     const getData = async () => {
-
         let isSetup = await setupPlayer()
         await TrackPlayer.reset()
         let Imagess;
@@ -133,7 +125,7 @@ const Detials = (props) => {
                 <View style={styles.header}>
                     <TouchableOpacity onPress={async () => { await TrackPlayer.reset(), navigation.dispatch(StackActions.popToTop()) }}><Image style={styles.icon} source={require('../../Assets4/btnhome_normal.png')} /></TouchableOpacity>
                     <Text style={styles.Titel}>{setting.English && Title}</Text>
-                    <TouchableOpacity onPress={async () => { await TrackPlayer.reset(), navigation.dispatch(StackActions.push('setting', { pr: 'details'}))}}><Image style={styles.icon} source={require('../../Assets4/btnsetting_normal.png')} /></TouchableOpacity>
+                    <TouchableOpacity onPress={async () => { await TrackPlayer.reset(), navigation.dispatch(StackActions.push('setting', { pr: 'details' })) }}><Image style={styles.icon} source={require('../../Assets4/btnsetting_normal.png')} /></TouchableOpacity>
                 </View>
                 <View style={styles.imgContainer}>
                     {Images && <Image style={{ height: height / 1.45, width: '100%', alignItems: 'center' }} source={{ uri: Images }} />
