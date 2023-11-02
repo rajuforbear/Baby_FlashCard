@@ -1,4 +1,8 @@
 {
   "name": "Baby_Flashcards",
-  "displayName": "Baby_Flashcards"
+  "displayName": "Baby_Flashcards",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-3940256099942544/4411468910",
+    "ios_app_id": "ca-app-pub-3940256099942544/4411468910"
+  }
 }
