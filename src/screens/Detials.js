@@ -18,17 +18,17 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {addPagable} from '../reduxToolkit/Slicer6';
 
-import {
-  InterstitialAd,
-  TestIds,
-  AdEventType,
-} from 'react-native-google-mobile-ads';
-const adUnitId = TestIds.INTERSTITIAL;
+// import {
+//   InterstitialAd,
+//   TestIds,
+//   AdEventType,
+// } from 'react-native-google-mobile-ads';
+// const adUnitId = TestIds.INTERSTITIAL;
 
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  requestNonPersonalizedAdsOnly: true,
-  keywords: ['fashion', 'clothing'],
-});
+// const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+//   requestNonPersonalizedAdsOnly: true,
+//   keywords: ['fashion', 'clothing'],
+// });
 const Detials = props => {
   const disapatch = useDispatch();
   const canlable = useSelector(state => state.cancle);
@@ -70,24 +70,24 @@ const Detials = props => {
   } else {
     data = useSelector(state => state.Items);
   }
-  useEffect(() => {
-    getAdd();
-  });
-  const getAdd = () => {
-    const interval = setInterval(() => {
-      const unsubscribe = interstitial.addAdEventListener(
-        AdEventType.LOADED,
-        () => {
-          interstitial.show();
-        },
-      );
-      // Start loading the interstitial straight away
-      interstitial.load();
-      // Unsubscribe from events on unmount
-      return unsubscribe;
-    }, 500);
-    return () => clearInterval(interval);
-  };
+  // useEffect(() => {
+  //   // getAdd();
+  // });
+  // const getAdd = () => {
+  //   const interval = setInterval(() => {
+  //     const unsubscribe = interstitial.addAdEventListener(
+  //       AdEventType.LOADED,
+  //       () => {
+  //         interstitial.show();
+  //       },
+  //     );
+  //     // Start loading the interstitial straight away
+  //     interstitial.load();
+  //     // Unsubscribe from events on unmount
+  //     return unsubscribe;
+  //   }, 500);
+  //   return () => clearInterval(interval);
+  // };
   const getData = async () => {
     let isSetup = await setupPlayer();
     await TrackPlayer.reset();
@@ -123,7 +123,7 @@ const Detials = props => {
       });
     } else {
       navigation.dispatch(StackActions.popToTop());
-      getAdd();
+      // getAdd();
     }
     setImages(Imagess);
     setTitle(Titel);
