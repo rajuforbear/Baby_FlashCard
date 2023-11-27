@@ -16,7 +16,3 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({});
-// "react-native-google-mobile-ads": {
-//   "android_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
-//   "ios_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx"
-// }
