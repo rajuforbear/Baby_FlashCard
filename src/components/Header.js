@@ -29,7 +29,7 @@ const Header = ({onPress, onPress2, mute, home}) => {
       if (appState.current == 'background') {
         reset();
       } else if (appState.current == 'active') {
-        play();
+        // play();
       }
     });
 
