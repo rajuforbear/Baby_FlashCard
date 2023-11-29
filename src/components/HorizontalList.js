@@ -4,6 +4,7 @@ import Card from './Card';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addData} from '../reduxToolkit/Slice';
+import {addCatNext} from '../reduxToolkit/Slice7';
 var SQLite = require('react-native-sqlite-storage');
 const db = SQLite.openDatabase({
   name: 'eFlashEngishinappnew.db',
@@ -28,9 +29,9 @@ const HorizontalList = ({items}) => {
               arr.push(row);
             }
             disapatch(addData(arr));
+            disapatch(addCatNext({items, id: parseInt(id) + 1}));
             navigation.navigate(wr ? 'question' : 'details', {
               page: true,
-              item: {items, id: parseInt(id) + 1},
             });
           },
           err => {

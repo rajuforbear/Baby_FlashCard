@@ -38,7 +38,7 @@ const Detials = props => {
   const disapatch = useDispatch();
   const canlable = useSelector(state => state.cancle);
   const page = useSelector(state => state.page);
-  const items = props?.route.params?.item;
+
   useEffect(() => {
     const backAction = async () => {
       await TrackPlayer.reset();
@@ -158,7 +158,7 @@ const Detials = props => {
     } else if (count < 0) {
       navigation.goBack();
     } else {
-      navigation.dispatch(StackActions.replace('next', {item: items}));
+      navigation.dispatch(StackActions.replace('next'));
     }
     setImages(Imagess);
     setTitle(Titel);

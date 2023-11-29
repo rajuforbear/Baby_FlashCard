@@ -19,6 +19,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import {addCatNext} from '../reduxToolkit/Slice7';
 var SQLite = require('react-native-sqlite-storage');
 const db = SQLite.openDatabase({
   name: 'eFlashEngishinappnew.db',
@@ -27,7 +28,7 @@ const db = SQLite.openDatabase({
 
 const NextScreen = ({route}) => {
   const navigation = useNavigation();
-  const item = route.params.item;
+  const item = useSelector(state => state?.catdata);
   console.log('this is item', item);
   const disapatch = useDispatch();
   const cat = useSelector(state => state.cat);
@@ -48,6 +49,7 @@ const NextScreen = ({route}) => {
             arr.push(row);
           }
           disapatch(addData(arr));
+          disapatch(addCatNext({items: item.items, id: parseInt(id) + 1}));
           if (cat != 'link') {
             navigation.navigate(wr ? 'question' : 'details', {
               page: true,
