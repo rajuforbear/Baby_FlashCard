@@ -10,6 +10,7 @@ import SplashScreen from '../screens/SplashScreen';
 import TrackPlayer from 'react-native-track-player';
 import {setupPlayer} from './Setup';
 import {useSelector, useDispatch} from 'react-redux';
+import NextScreen from '../screens/NextScreen';
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -70,6 +71,7 @@ const MyStack = () => {
         <Stack.Screen name="question" component={QuestionPage} />
         <Stack.Screen name="setting" component={SettingScreen} />
         <Stack.Screen name="slash" component={SplashScreen} />
+        <Stack.Screen name="next" component={NextScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

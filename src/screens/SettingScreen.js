@@ -20,10 +20,15 @@ import Header from '../components/Header';
 import {addCancleble} from '../reduxToolkit/Slice5';
 import {addPagable} from '../reduxToolkit/Slicer6';
 var SQLite = require('react-native-sqlite-storage');
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 const db = SQLite.openDatabase({
   name: 'eFlashEngishinappnew.db',
   createFromLocation: 1,
 });
+import {isTablet} from 'react-native-device-info';
 const SettingScreen = props => {
   useEffect(() => {
     const backAction = async () => {
@@ -41,7 +46,7 @@ const SettingScreen = props => {
   }, []);
   const muted = useSelector(state => state.sound);
   const canlable = useSelector(state => state.cancle);
-
+  const tablet = isTablet();
   const pr = props.route.params.pr;
   const [mute, setMute] = useState(muted);
   const quesion = useSelector(state => state.question);
@@ -121,11 +126,12 @@ const SettingScreen = props => {
       style={{flex: 1}}
       source={require('../../Assets4/settingscreen.png')}>
       <Header onPress2={() => setMute(!mute)} mute={mute} />
-      <View style={styles.settingContainer}>
+      <View
+        style={[styles.settingContainer, {marginTop: tablet ? '25%' : '40%'}]}>
         <ImageBackground
           style={{flex: 1}}
           source={require('../../Assets4/settingpagebase.png')}>
-          <View style={{marginTop: '10%', marginLeft: '5%'}}>
+          <View style={{marginTop: tablet ? '7%' : '10%', marginLeft: '5%'}}>
             <Switch
               text="Ouestion mode"
               style={styles.sw}
@@ -171,14 +177,14 @@ const SettingScreen = props => {
               onPress={() => handleSwitch('English', togleSwitch.English)}
               sw={togleSwitch.English}
             />
-            <Switch
+            {/* <Switch
               text="Video"
               style={styles.tx}
               onPress={() => {
                 handleSwitch('Videos', false);
               }}
               sw={togleSwitch.Videos}
-            />
+            /> */}
           </View>
         </ImageBackground>
       </View>
@@ -198,13 +204,13 @@ const SettingScreen = props => {
             }
           }}>
           <Image
-            style={{height: 50, width: 120}}
+            style={{height: hp(6), width: wp(30)}}
             source={require('../../Assets4/btncancel_normal.png')}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => Save()}>
           <Image
-            style={{height: 50, width: 120}}
+            style={{height: hp(6), width: wp(30)}}
             source={require('../../Assets4/btnsave_normal.png')}
           />
         </TouchableOpacity>
@@ -224,14 +230,14 @@ const styles = StyleSheet.create({
   sw: {
     alignSelf: 'flex-end',
     marginRight: '5%',
-    fontSize: 22,
+    fontSize: wp(5),
     fontWeight: 'bold',
     color: 'black',
   },
   tx: {
     alignSelf: 'flex-end',
     marginRight: '5%',
-    fontSize: 22,
+    fontSize: wp(5),
     color: 'black',
   },
 });

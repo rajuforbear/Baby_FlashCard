@@ -5,6 +5,10 @@ import TrackPlayer from 'react-native-track-player';
 import {setupPlayer} from './Setup';
 import {useDispatch, useSelector} from 'react-redux';
 import {Sound} from '../reduxToolkit/Slice4';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 const Header = ({onPress, onPress2, mute, home}) => {
   const mt = useSelector(state => state.sound);
@@ -69,7 +73,7 @@ const Header = ({onPress, onPress2, mute, home}) => {
       }}>
       <TouchableOpacity onPress={onPress2}>
         <Image
-          style={{height: height / 14, width: width / 7, margin: '1%'}}
+          style={{height: hp(7), width: hp(7), margin: '1%'}}
           source={
             mt
               ? require('../../Assets4/btnsseakar.png')
@@ -80,7 +84,7 @@ const Header = ({onPress, onPress2, mute, home}) => {
       {home && (
         <TouchableOpacity onPress={onPress}>
           <Image
-            style={{height: height / 14, width: width / 7, margin: '1%'}}
+            style={{height: hp(7), width: hp(7), margin: '1%'}}
             source={require('../../Assets4/btnsetting_normal.png')}
           />
         </TouchableOpacity>

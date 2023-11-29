@@ -17,7 +17,11 @@ import {} from 'react-native-gesture-handler';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {addPagable} from '../reduxToolkit/Slicer6';
-
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import {isTablet} from 'react-native-device-info';
 // import {
 //   InterstitialAd,
 //   TestIds,
@@ -30,9 +34,11 @@ import {addPagable} from '../reduxToolkit/Slicer6';
 //   keywords: ['fashion', 'clothing'],
 // });
 const Detials = props => {
+  const tablet = isTablet();
   const disapatch = useDispatch();
   const canlable = useSelector(state => state.cancle);
   const page = useSelector(state => state.page);
+  const items = props?.route.params?.item;
   useEffect(() => {
     const backAction = async () => {
       await TrackPlayer.reset();
@@ -60,16 +66,8 @@ const Detials = props => {
 
   const setting = useSelector(state => state.setting);
 
-  var data;
-  if (setting.RandomOrder) {
-    data = useSelector(state =>
-      state.Items.filter((item, index) => item.Category === item.Category).sort(
-        () => Math.random() - 0.5,
-      ),
-    );
-  } else {
-    data = useSelector(state => state.Items);
-  }
+  const data = useSelector(state => state.Items);
+
   // useEffect(() => {
   //   // getAdd();
   // });
@@ -88,6 +86,41 @@ const Detials = props => {
   //   }, 500);
   //   return () => clearInterval(interval);
   // };
+  function shuffle(array) {
+    let currentIndex = array.length;
+    let temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
+  let newData;
+
+  if (setting.RandomOrder) {
+    const shuffledData = shuffle([...data]);
+    newData = [...shuffledData];
+  } else {
+    newData = [...data]?.sort((a, b) => {
+      const titleA = a.Title.toUpperCase();
+      const titleB = b.Title.toUpperCase();
+
+      if (titleA < titleB) {
+        return -1;
+      }
+      if (titleA > titleB) {
+        return 1;
+      }
+      return 0;
+    });
+  }
   const getData = async () => {
     let isSetup = await setupPlayer();
     await TrackPlayer.reset();
@@ -96,9 +129,10 @@ const Detials = props => {
     let track;
     let track2;
     let ActualSound;
+
     let y = data.length;
     if (count >= 0 && count <= y - 1) {
-      data.map(async (item, index) => {
+      newData.map(async (item, index) => {
         if (index == count) {
           Imagess = `asset:/files/${item.Image}`;
           Titel = item.Title;
@@ -121,9 +155,10 @@ const Detials = props => {
           ActualSound = item.ActualSound;
         }
       });
+    } else if (count < 0) {
+      navigation.goBack();
     } else {
-      navigation.dispatch(StackActions.popToTop());
-      // getAdd();
+      navigation.dispatch(StackActions.replace('next', {item: items}));
     }
     setImages(Imagess);
     setTitle(Titel);
@@ -209,7 +244,13 @@ const Detials = props => {
                 setCount(count - 1);
               }}>
               <Image
-                style={styles.btn}
+                style={[
+                  styles.btn,
+                  {
+                    height: tablet ? hp(6) : hp(5.6),
+                    width: tablet ? wp(31) : wp(35),
+                  },
+                ]}
                 source={require('../../Assets4/btnprevious_normal.png')}
               />
             </TouchableOpacity>
@@ -229,7 +270,13 @@ const Detials = props => {
                 setCount(count + 1);
               }}>
               <Image
-                style={styles.btn}
+                style={[
+                  styles.btn,
+                  {
+                    height: tablet ? hp(6) : hp(5.6),
+                    width: tablet ? wp(31) : wp(35),
+                  },
+                ]}
                 source={require('../../Assets4/btnnext_normal.png')}
               />
             </TouchableOpacity>
@@ -248,14 +295,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: 'grey',
+    paddingHorizontal: wp(2),
   },
   icon: {
-    height: height / 14,
-    width: width / 7,
-    margin: '1%',
+    height: hp(7),
+    width: hp(7),
+    margin: 5,
   },
   Titel: {
-    fontSize: 25,
+    fontSize: wp(6),
     fontWeight: 'bold',
     color: 'white',
     alignSelf: 'center',
@@ -263,22 +311,27 @@ const styles = StyleSheet.create({
   imgContainer: {
     height: height,
     marginTop: '5%',
+    // marginLeft: 8,
   },
   btnContainer: {
     position: 'absolute',
     bottom: '9%',
-    width: '100%',
+    width: '98%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginHorizontal: wp(1.5),
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   btn: {
-    height: height / 21,
-    width: width / 3,
+    height: hp(5.5),
+    width: wp(35),
     margin: '1%',
   },
   btn2: {
-    height: height / 18,
-    width: width / 9,
+    height: hp(6.5),
+    width: hp(6.5),
     margin: '1%',
   },
 });
+['zaju', 'bazu', 'sazu', 'raju'];

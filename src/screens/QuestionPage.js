@@ -10,9 +10,14 @@ import {RightVOid, WrongVoid} from '../components/WrongVoid';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {useIsFocused} from '@react-navigation/native';
 import {addPagable} from '../reduxToolkit/Slicer6';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import {isTablet} from 'react-native-device-info';
 
 const QuestionPage = props => {
-  //const page = props.route.params.page;
+  const tablet = isTablet();
   const disapatch = useDispatch();
   useEffect(() => {
     const backAction = async () => {
@@ -197,7 +202,7 @@ const QuestionPage = props => {
           />
         </TouchableOpacity>
       </View>
-      <View style={{marginTop: '15%', alignSelf: 'center'}}>
+      <View style={{marginTop: tablet ? '5%' : '15%', alignSelf: 'center'}}>
         <FlatList
           data={rendomdat}
           numColumns={2}
@@ -209,7 +214,7 @@ const QuestionPage = props => {
                   {
                     margin: '1%',
                     marginHorizontal: '1%',
-                    marginVertical: '7%',
+                    marginVertical: '6%',
                     height: height / 3.2,
                     width: width / 2.15,
                   },
@@ -267,8 +272,8 @@ const QuestionPage = props => {
 export default QuestionPage;
 const styles = StyleSheet.create({
   icon: {
-    height: height / 14,
-    width: width / 7,
+    height: hp(7),
+    width: hp(7),
     margin: '1%',
   },
   Titel: {
@@ -284,20 +289,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
   },
   btn2: {
-    height: height / 20,
-    width: width / 10,
+    height: hp(6.5),
+    width: hp(6.5),
     alignSelf: 'center',
-    marginTop: '30%',
+    marginTop: '15%',
   },
   wrongImg1: {
-    height: height / 3,
-    width: width / 2.12,
+    height: hp(35),
+    width: wp(47),
     margin: '1%',
     marginLeft: '2%',
   },
   wrongImg2: {
-    height: height / 3,
-    width: width / 2.12,
+    height: hp(35),
+    width: wp(47),
 
     marginLeft: '1%',
     marginTop: '1%',
@@ -305,11 +310,11 @@ const styles = StyleSheet.create({
   worgImgContainer: {
     flexDirection: 'row',
     position: 'absolute',
-    top: '18%',
+    top: '15.5%',
   },
   worgImgContainer2: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: '9.80%',
+    bottom: '10.8%',
   },
 });
