@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   BackHandler,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,23 +23,25 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {isTablet} from 'react-native-device-info';
-// import {
-//   InterstitialAd,
-//   TestIds,
-//   AdEventType,
-// } from 'react-native-google-mobile-ads';
-// const adUnitId = TestIds.INTERSTITIAL;
+import {
+  MobileAds,
+  useInterstitialAd,
+  TestIds,
+  InterstitialAd,
+  AdEventType,
+} from 'react-native-google-mobile-ads';
 
-// const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-//   requestNonPersonalizedAdsOnly: true,
-//   keywords: ['fashion', 'clothing'],
-// });
+const adUnit = TestIds.INTERSTITIAL;
+const requestOption = {
+  requestNonPersonalizedAdsOnly: true,
+  // keywords: ['fashion', 'clothing'],
+};
 const Detials = props => {
   const tablet = isTablet();
   const disapatch = useDispatch();
   const canlable = useSelector(state => state.cancle);
   const page = useSelector(state => state.page);
-
+  const interstitial = InterstitialAd.createForAdRequest(adUnit, requestOption);
   useEffect(() => {
     const backAction = async () => {
       await TrackPlayer.reset();
@@ -68,24 +71,16 @@ const Detials = props => {
 
   const data = useSelector(state => state.Items);
 
-  // useEffect(() => {
-  //   // getAdd();
-  // });
-  // const getAdd = () => {
-  //   const interval = setInterval(() => {
-  //     const unsubscribe = interstitial.addAdEventListener(
-  //       AdEventType.LOADED,
-  //       () => {
-  //         interstitial.show();
-  //       },
-  //     );
-  //     // Start loading the interstitial straight away
-  //     interstitial.load();
-  //     // Unsubscribe from events on unmount
-  //     return unsubscribe;
-  //   }, 500);
-  //   return () => clearInterval(interval);
-  // };
+  const getAdd = () => {
+    const unsubscribe = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        interstitial.show();
+      },
+    );
+    interstitial.load();
+    return unsubscribe;
+  };
   function shuffle(array) {
     let currentIndex = array.length;
     let temporaryValue, randomIndex;
@@ -121,6 +116,17 @@ const Detials = props => {
       return 0;
     });
   }
+  // const showAdd = () => {
+  //   const unsubcribee = interstitial.addAdEventListener(
+  //     AdEventType.LOADED,
+  //     () => {
+  //       interstitial.show();
+  //     },
+  //   );
+  //   interstitial.load();
+
+  //   return unsubcribee();
+  // };
   const getData = async () => {
     let isSetup = await setupPlayer();
     await TrackPlayer.reset();
@@ -129,9 +135,13 @@ const Detials = props => {
     let track;
     let track2;
     let ActualSound;
-
+    const numbers = [6, 9, 5, 8, 12];
+    const indexx = Math.floor(Math.random() * numbers.length);
     let y = data.length;
     if (count >= 0 && count <= y - 1) {
+      if (count == 5) {
+        getAdd();
+      }
       newData.map(async (item, index) => {
         if (index == count) {
           Imagess = `asset:/files/${item.Image}`;
@@ -158,6 +168,7 @@ const Detials = props => {
     } else if (count < 0) {
       navigation.goBack();
     } else {
+      getAdd();
       navigation.dispatch(StackActions.replace('next'));
     }
     setImages(Imagess);

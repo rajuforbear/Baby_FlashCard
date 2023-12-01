@@ -11,6 +11,7 @@ import TrackPlayer from 'react-native-track-player';
 import {setupPlayer} from './Setup';
 import {useSelector, useDispatch} from 'react-redux';
 import NextScreen from '../screens/NextScreen';
+import InterstitialAdsScreen from '../screens/Adss';
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -72,6 +73,10 @@ const MyStack = () => {
         <Stack.Screen name="setting" component={SettingScreen} />
         <Stack.Screen name="slash" component={SplashScreen} />
         <Stack.Screen name="next" component={NextScreen} />
+        {/* <Stack.Screen
+          name="InterstitialAdsScreen"
+          component={InterstitialAdsScreen}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

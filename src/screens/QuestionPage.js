@@ -15,8 +15,19 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {isTablet} from 'react-native-device-info';
-
+import {
+  AppOpenAd,
+  TestIds,
+  AdEventType,
+  InterstitialAd,
+} from 'react-native-google-mobile-ads';
+const authId = TestIds.INTERSTITIAL;
+const requestOption = {
+  requestNonPersonalizedAdsOnly: true,
+  keywords: ['fashion', 'clothing'],
+};
 const QuestionPage = props => {
+  const interstitial = InterstitialAd.createForAdRequest(authId, requestOption);
   const tablet = isTablet();
   const disapatch = useDispatch();
   useEffect(() => {
@@ -33,6 +44,7 @@ const QuestionPage = props => {
 
     return () => backHandler.remove();
   }, []);
+
   const navigation = useNavigation();
   const canlable = useSelector(state => state.cancle);
   const page = useSelector(state => state.page);
@@ -42,12 +54,28 @@ const QuestionPage = props => {
   const [wrong1, setWrong1] = useState(false);
   const [wrong2, setWrong2] = useState(false);
   const [wrong3, setWrong3] = useState(false);
+  const [count, setCount] = useState(1);
 
   const data = useSelector(state => state.Items);
+  const showAdd = () => {
+    const unsubscribe = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        interstitial.show();
+      },
+    );
+    interstitial.load();
+    return unsubscribe;
+  };
+
   const IsPlay = async (item, index) => {
     //  console.log('isPlay is fired')
     let isReady = await setupPlayer();
     await TrackPlayer.reset();
+    setCount(count + 1);
+    if (count > 6) {
+      setCount(0), showAdd();
+    }
     let arr = [
       (track = {
         url: require('../../asset2/clickon.mp3'), // Load media from the file system

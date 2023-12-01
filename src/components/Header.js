@@ -25,10 +25,11 @@ const Header = ({onPress, onPress2, mute, home}) => {
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-        console.log('App has come to the foreground!');
       }
 
       appState.current = nextAppState;
+      if (appState.current == 'background') {
+      }
       setAppStateVisible(appState.current);
       if (appState.current == 'background') {
         reset();
