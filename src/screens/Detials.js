@@ -139,9 +139,6 @@ const Detials = props => {
     const indexx = Math.floor(Math.random() * numbers.length);
     let y = data.length;
     if (count >= 0 && count <= y - 1) {
-      if (count == 5) {
-        getAdd();
-      }
       newData.map(async (item, index) => {
         if (index == count) {
           Imagess = `asset:/files/${item.Image}`;

@@ -29,6 +29,7 @@ const Header = ({onPress, onPress2, mute, home}) => {
 
       appState.current = nextAppState;
       if (appState.current == 'background') {
+        console.log('ap is ogone to backgoumnd');
       }
       setAppStateVisible(appState.current);
       if (appState.current == 'background') {

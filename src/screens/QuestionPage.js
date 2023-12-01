@@ -73,7 +73,8 @@ const QuestionPage = props => {
     let isReady = await setupPlayer();
     await TrackPlayer.reset();
     setCount(count + 1);
-    if (count > 6) {
+
+    if (count > 8) {
       setCount(0), showAdd();
     }
     let arr = [
@@ -81,8 +82,7 @@ const QuestionPage = props => {
         url: require('../../asset2/clickon.mp3'), // Load media from the file system
         title: 'Ice Age',
         artist: 'deadmau5',
-        // Load artwork from the file system:
-        //  artwork: require('../../asset2/clickon.mp3'),
+
         duration: null,
       }),
       (track2 = {
