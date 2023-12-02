@@ -43,7 +43,7 @@ const Header = ({onPress, onPress2, mute, home}) => {
       subscription.remove();
     };
   }, []);
-  console.log('this is mt', mt);
+
   const reset = async () => {
     await TrackPlayer.reset();
   };
@@ -54,8 +54,6 @@ const Header = ({onPress, onPress2, mute, home}) => {
       url: require('../../asset2/babyflashtheme.mp3'), // Load media from the file system
       title: 'Ice Age',
       artist: 'deadmau5',
-      // Load artwork from the file system:
-      //artwork: `asset:/files/${item.Sound}`,
       duration: null,
     };
     if (isReady) {

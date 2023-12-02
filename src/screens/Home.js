@@ -24,23 +24,35 @@ const db = SQLite.openDatabase({
   name: 'eFlashEngishinappnew.db',
   createFromLocation: 1,
 });
-import mobileAds from 'react-native-google-mobile-ads';
+
 const Home = () => {
   const muted = useSelector(state => state.sound);
   const Navigation = useNavigation();
   const [mute, setMute] = useState(muted);
-
+  useEffect(() => {
+    getSettings();
+  }, []);
   const dispatch = useDispatch();
+  const getSettings = () => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'SELECT * FROM  tbl_settings',
+        [],
+        (tx, results) => {
+          let row = results.rows.item(0);
 
-  // useEffect(() => {
-  //   const unsubscribe = appOpenAd.addAdEventListener(AdEventType.LOADED, () => {
-  //     appOpenAd.show();
-  //   });
-  //   // Start loading the interstitial straight away
-  //   appOpenAd.load();
-  //   // Unsubscribe from events on unmount
-  //   return unsubscribe;
-  // }, []);
+          console.log(row);
+
+          dispatch(addSetting(row));
+
+          dispatch(QuestionMode(row.Question));
+        },
+        err => {
+          console.log(err);
+        },
+      );
+    });
+  };
 
   return (
     <ImageBackground

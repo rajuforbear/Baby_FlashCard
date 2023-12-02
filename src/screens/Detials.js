@@ -116,17 +116,7 @@ const Detials = props => {
       return 0;
     });
   }
-  // const showAdd = () => {
-  //   const unsubcribee = interstitial.addAdEventListener(
-  //     AdEventType.LOADED,
-  //     () => {
-  //       interstitial.show();
-  //     },
-  //   );
-  //   interstitial.load();
 
-  //   return unsubcribee();
-  // };
   const getData = async () => {
     let isSetup = await setupPlayer();
     await TrackPlayer.reset();
@@ -191,10 +181,8 @@ const Detials = props => {
 
   useEffect(() => {
     page ? paly() : null;
-    console.log('this is called normafunctiti');
   }, [canlable]);
   const paly = async () => {
-    console.log('this page is called');
     await TrackPlayer.reset();
     await TrackPlayer.add(Music);
     await TrackPlayer.play();

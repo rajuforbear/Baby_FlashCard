@@ -116,6 +116,7 @@ const SettingScreen = props => {
         },
         err => {
           console.log(err);
+          console.log('erorr');
         },
       );
     });
