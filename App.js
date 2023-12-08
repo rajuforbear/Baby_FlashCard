@@ -1,4 +1,4 @@
-import {StyleSheet, AppState, Alert} from 'react-native';
+import {StyleSheet, AppState, Alert, BackHandler} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import MyStack from './src/components/MyStack';
 import {Provider} from 'react-redux';
@@ -8,9 +8,10 @@ import {
   TestIds,
   AdEventType,
 } from 'react-native-google-mobile-ads';
+import {Addsid} from './src/screens/ads';
 const App = () => {
   const appState = useRef(AppState.currentState);
-  const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL, {
+  const interstitial = InterstitialAd.createForAdRequest(Addsid.Interstitial, {
     requestNonPersonalizedAdsOnly: true,
   });
 
@@ -48,6 +49,34 @@ const App = () => {
   useEffect(() => {
     if (appStateVisible) showAdd();
   }, [appStateVisible]);
+
+  function handleBackButtonClick() {
+    showAdd1();
+
+    return true;
+  }
+
+  const showAdd1 = () => {
+    const unsubscribe = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        interstitial.show();
+        BackHandler.exitApp();
+      },
+    );
+    interstitial.load();
+    return unsubscribe;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
 
   return (
     <Provider store={myStore}>

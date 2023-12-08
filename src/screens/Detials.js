@@ -2,7 +2,6 @@ import {
   Image,
   StyleSheet,
   Text,
-  Touchable,
   TouchableOpacity,
   View,
   BackHandler,
@@ -10,11 +9,9 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FlatList} from 'react-native-gesture-handler';
 import {height, width} from '../components/Diemenstions';
 import TrackPlayer from 'react-native-track-player';
 import {setupPlayer} from '../components/Setup';
-import {} from 'react-native-gesture-handler';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {addPagable} from '../reduxToolkit/Slicer6';
@@ -24,14 +21,13 @@ import {
 } from 'react-native-responsive-screen';
 import {isTablet} from 'react-native-device-info';
 import {
-  MobileAds,
-  useInterstitialAd,
   TestIds,
   InterstitialAd,
   AdEventType,
 } from 'react-native-google-mobile-ads';
+import {Addsid} from './ads';
 
-const adUnit = TestIds.INTERSTITIAL;
+const adUnit = Addsid.Interstitial;
 const requestOption = {
   requestNonPersonalizedAdsOnly: true,
   // keywords: ['fashion', 'clothing'],

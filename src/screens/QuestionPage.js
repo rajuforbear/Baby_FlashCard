@@ -21,7 +21,8 @@ import {
   AdEventType,
   InterstitialAd,
 } from 'react-native-google-mobile-ads';
-const authId = TestIds.INTERSTITIAL;
+import {Addsid} from './ads';
+const authId = Addsid.Interstitial;
 const requestOption = {
   requestNonPersonalizedAdsOnly: true,
   keywords: ['fashion', 'clothing'],
