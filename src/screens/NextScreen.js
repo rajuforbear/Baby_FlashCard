@@ -25,7 +25,12 @@ const db = SQLite.openDatabase({
   name: 'eFlashEngishinappnew.db',
   createFromLocation: 1,
 });
-
+import {
+  GAMBannerAd,
+  BannerAdSize,
+  TestIds,
+} from 'react-native-google-mobile-ads';
+import {Addsid} from './ads';
 const NextScreen = ({route}) => {
   const navigation = useNavigation();
   const item = useSelector(state => state?.catdata);
@@ -151,6 +156,15 @@ const NextScreen = ({route}) => {
               Home
             </Text>
           </TouchableOpacity>
+        </View>
+        <View style={{position: 'absolute', bottom: 0}}>
+          <GAMBannerAd
+            unitId={Addsid.BANNER}
+            sizes={[BannerAdSize.FULL_BANNER]}
+            requestOptions={{
+              requestNonPersonalizedAdsOnly: true,
+            }}
+          />
         </View>
       </ImageBackground>
     </SafeAreaView>

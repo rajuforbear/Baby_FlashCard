@@ -16,10 +16,11 @@ import {
 } from 'react-native-responsive-screen';
 import {isTablet} from 'react-native-device-info';
 import {
-  AppOpenAd,
   TestIds,
-  AdEventType,
   InterstitialAd,
+  AdEventType,
+  GAMBannerAd,
+  BannerAdSize,
 } from 'react-native-google-mobile-ads';
 import {Addsid} from './ads';
 const authId = Addsid.Interstitial;
@@ -176,7 +177,7 @@ const QuestionPage = props => {
 
   const run = async () => {
     await TrackPlayer.reset();
-    let y = Math.floor(Math.random() * 3);
+    let y = Math.floor(Math.random() * 4);
     rendomdat.map((item, index) => {
       if (index === y) {
         IsPlay(item, index);
@@ -202,97 +203,112 @@ const QuestionPage = props => {
     navigation.dispatch(StackActions.push('setting', {pr: 'question'}));
   };
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={async () => {
-            await TrackPlayer.reset();
-            disapatch(addPagable(false));
-            navigation.dispatch(StackActions.popToTop());
+    <View style={{height: '100%', width: '100%'}}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={async () => {
+              await TrackPlayer.reset();
+              disapatch(addPagable(false));
+              navigation.dispatch(StackActions.popToTop());
+            }}>
+            <Image
+              style={styles.icon}
+              source={require('../../Assets4/btnhome_normal.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => sound()}>
+            <Image
+              style={styles.btn2}
+              source={require('../../Assets4/btnrepeat_normal.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={async () => {
+              gotoSettings();
+            }}>
+            <Image
+              style={styles.icon}
+              source={require('../../Assets4/btnsetting_normal.png')}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            marginTop: tablet ? '5%' : '15%',
+            alignSelf: 'center',
+            alignItems: 'center',
           }}>
-          <Image
-            style={styles.icon}
-            source={require('../../Assets4/btnhome_normal.png')}
+          <FlatList
+            data={rendomdat}
+            numColumns={2}
+            keyExtractor={item => item.ID}
+            renderItem={({item, index}) => {
+              return (
+                <View style={[!tablet ? styles.mobileView : styles.tabView]}>
+                  <Image
+                    style={{height: '100%', width: '100%'}}
+                    source={{uri: `asset:/files/${item.Image}`}}
+                  />
+                </View>
+              );
+            }}
           />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => sound()}>
-          <Image
-            style={styles.btn2}
-            source={require('../../Assets4/btnrepeat_normal.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={async () => {
-            gotoSettings();
-          }}>
-          <Image
-            style={styles.icon}
-            source={require('../../Assets4/btnsetting_normal.png')}
-          />
-        </TouchableOpacity>
+        </View>
+        <View style={[styles.worgImgContainer, {top: !tablet ? '17%' : '13%'}]}>
+          <TouchableOpacity
+            onPress={() => up(0)}
+            style={[!tablet ? styles.wrongImg1 : styles.tabWrong1]}>
+            {wrong0 && (
+              <Image
+                style={{height: '100%', width: '100%'}}
+                source={require('../../Assets4/wrongselection.png')}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => up(1)}
+            style={[!tablet ? styles.wrongImg2 : styles.tabWrong2]}>
+            {wrong1 && (
+              <Image
+                style={{height: '100%', width: '100%'}}
+                source={require('../../Assets4/wrongselection.png')}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.worgImgContainer2}>
+          <TouchableOpacity
+            onPress={() => up(2)}
+            style={[!tablet ? styles.wrongImg1 : styles.tabWrong1]}>
+            {wrong2 && (
+              <Image
+                style={{height: '100%', width: '100%'}}
+                source={require('../../Assets4/wrongselection.png')}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => up(3)}
+            style={[!tablet ? styles.wrongImg2 : styles.tabWrong2]}>
+            {wrong3 && (
+              <Image
+                style={{height: '100%', width: '100%'}}
+                source={require('../../Assets4/wrongselection.png')}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={{marginTop: tablet ? '5%' : '15%', alignSelf: 'center'}}>
-        <FlatList
-          data={rendomdat}
-          numColumns={2}
-          keyExtractor={item => item.ID}
-          renderItem={({item, index}) => {
-            return (
-              <View
-                style={[
-                  {
-                    margin: '1%',
-                    marginHorizontal: '1%',
-                    marginVertical: '6%',
-                    height: height / 3.2,
-                    width: width / 2.15,
-                  },
-                ]}>
-                <Image
-                  style={{height: '100%', width: '100%'}}
-                  source={{uri: `asset:/files/${item.Image}`}}
-                />
-              </View>
-            );
+      <View style={{bottom: 0, borderWidth: 0}}>
+        <GAMBannerAd
+          unitId={Addsid.BANNER}
+          sizes={[BannerAdSize.FULL_BANNER]}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
           }}
         />
-      </View>
-      <View style={styles.worgImgContainer}>
-        <TouchableOpacity onPress={() => up(0)} style={styles.wrongImg1}>
-          {wrong0 && (
-            <Image
-              style={{height: '100%', width: '100%'}}
-              source={require('../../Assets4/wrongselection.png')}
-            />
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => up(1)} style={styles.wrongImg2}>
-          {wrong1 && (
-            <Image
-              style={{height: '100%', width: '100%'}}
-              source={require('../../Assets4/wrongselection.png')}
-            />
-          )}
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.worgImgContainer2}>
-        <TouchableOpacity onPress={() => up(2)} style={styles.wrongImg1}>
-          {wrong2 && (
-            <Image
-              style={{height: '100%', width: '100%'}}
-              source={require('../../Assets4/wrongselection.png')}
-            />
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => up(3)} style={styles.wrongImg2}>
-          {wrong3 && (
-            <Image
-              style={{height: '100%', width: '100%'}}
-              source={require('../../Assets4/wrongselection.png')}
-            />
-          )}
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -324,26 +340,55 @@ const styles = StyleSheet.create({
     marginTop: '15%',
   },
   wrongImg1: {
-    height: hp(35),
-    width: wp(47),
-    margin: '1%',
-    marginLeft: '2%',
+    height: hp(33),
+    width: hp(24),
+    marginHorizontal: wp(1.5),
+    marginVertical: hp(3),
+    // borderWidth: 4,
+    alignItems: 'center',
   },
   wrongImg2: {
-    height: hp(35),
-    width: wp(47),
-
-    marginLeft: '1%',
-    marginTop: '1%',
+    height: hp(33),
+    width: hp(24),
+    marginHorizontal: wp(1.5),
+    marginVertical: hp(3),
+    // /  borderWidth: 4,
+    alignItems: 'center',
   },
   worgImgContainer: {
     flexDirection: 'row',
     position: 'absolute',
-    top: '15.5%',
+    top: '16.7%',
   },
   worgImgContainer2: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: '10.8%',
+    bottom: '1%',
+  },
+  mobileView: {
+    height: hp(30),
+    width: hp(24),
+    marginHorizontal: wp(1.5),
+    marginVertical: hp(3),
+    alignItems: 'center',
+  },
+  tabView: {
+    height: hp(38),
+    width: hp(27),
+    marginHorizontal: hp(1.5),
+    // borderWidth: 4,
+    marginVertical: hp(1),
+  },
+  tabWrong2: {
+    height: hp(40),
+    width: hp(29),
+    marginLeft: hp(1),
+    marginVertical: hp(1),
+  },
+  tabWrong1: {
+    height: hp(40),
+    width: hp(29),
+    marginLeft: hp(4),
+    marginVertical: hp(1),
   },
 });

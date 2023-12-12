@@ -24,6 +24,8 @@ import {
   TestIds,
   InterstitialAd,
   AdEventType,
+  GAMBannerAd,
+  BannerAdSize,
 } from 'react-native-google-mobile-ads';
 import {Addsid} from './ads';
 
@@ -275,6 +277,13 @@ const Detials = props => {
           )}
         </View>
       </View>
+      <GAMBannerAd
+        unitId={Addsid.BANNER}
+        sizes={[BannerAdSize.FULL_BANNER]}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
     </GestureRecognizer>
   );
 };

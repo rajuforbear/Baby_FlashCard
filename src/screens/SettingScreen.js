@@ -29,6 +29,14 @@ const db = SQLite.openDatabase({
   createFromLocation: 1,
 });
 import {isTablet} from 'react-native-device-info';
+import {
+  TestIds,
+  InterstitialAd,
+  AdEventType,
+  GAMBannerAd,
+  BannerAdSize,
+} from 'react-native-google-mobile-ads';
+import {Addsid} from './ads';
 const SettingScreen = props => {
   useEffect(() => {
     const backAction = async () => {
@@ -128,7 +136,7 @@ const SettingScreen = props => {
       source={require('../../Assets4/settingscreen.png')}>
       <Header onPress2={() => setMute(!mute)} mute={mute} />
       <View
-        style={[styles.settingContainer, {marginTop: tablet ? '25%' : '40%'}]}>
+        style={[styles.settingContainer, {marginTop: tablet ? '25%' : '35%'}]}>
         <ImageBackground
           style={{flex: 1}}
           source={require('../../Assets4/settingpagebase.png')}>
@@ -215,6 +223,15 @@ const SettingScreen = props => {
             source={require('../../Assets4/btnsave_normal.png')}
           />
         </TouchableOpacity>
+      </View>
+      <View style={{position: 'absolute', bottom: 0}}>
+        <GAMBannerAd
+          unitId={Addsid.BANNER}
+          sizes={[BannerAdSize.FULL_BANNER]}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+        />
       </View>
     </ImageBackground>
   );
